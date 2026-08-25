@@ -27,10 +27,8 @@ class ProjectilePool:
             for _ in range(initial_pool_size):
                 pool.append(p_type())
 
-    def get_player_projectile(() -> PlayerProjectile:
-        pass
-
     def acquire(self, projectile_type: Type[Projectile]) -> Projectile:
+
         """Acquire an inactive projectile instance from pool, creating new if pool empty."""
         pool = self._pools.get(projectile_type)
         if pool is None:

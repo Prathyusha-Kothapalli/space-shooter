@@ -3,7 +3,7 @@ Procedural Wave Generator calculating wave enemy compositions and boss milestone
 """
 
 import random
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 from utils.math_utils import Vector2D
 from configuration.constants import (
     ENEMY_SCOUT, ENEMY_INTERCEPTOR, ENEMY_CRUISER,

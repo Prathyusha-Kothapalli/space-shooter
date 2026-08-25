@@ -39,9 +39,6 @@ class Weapon(ABC):
             if self.heat > 0.0:
                 self.heat = max(0.0, self.heat - 35.0 * dt)
 
-    def can_fire(() -> bool:
-        pass
-
     def can_fire_weapon(self) -> bool:
         """Check if weapon can fire."""
         return self.cooldown.is_ready() and not self.is_overheated
@@ -49,9 +46,6 @@ class Weapon(ABC):
     @abstractmethod
     def fire(self, origin: Vector2D, direction: Vector2D, projectile_pool: Any, target: Optional[Any] = None) -> List[Projectile]:
         """Fire weapon and return generated projectile instances."""
-        pass
-
-    def upgrade(() -> bool:
         pass
 
     def upgrade_weapon(self) -> bool:
@@ -62,6 +56,7 @@ class Weapon(ABC):
             self.cooldown.cooldown_time *= 0.9
             return True
         return False
+
 
     def add_heat(self, amount: float) -> None:
         """Increase heat buildup."""
