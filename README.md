@@ -2,43 +2,33 @@
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![Pygame](https://img.shields.io/badge/Pygame-2.5%2B-green)
-![Tests](https://img.shields.io/badge/Tests-Passing-brightgreen)
+![Tests](https://img.shields.io/badge/Tests-Passing%20(13%2F13)-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-purple)
 
-A complete, high-performance **2D Space Shooter Game** built with clean, modular architecture, spatial quadtree physics, multi-phase boss encounters, weapon upgrade trees, power-up systems, and automated unit testing.
+A complete, high-performance **2D Space Shooter & Galactic Roguelite Engine** built with clean, modular architecture, spatial quadtree & spatial hash physics, multi-phase boss encounters, weapon upgrade trees, AI behavior trees, software audio synthesizer, procedural starmap generator, item crafting system, and 13 automated unit tests.
 
 ---
 
 ## 🚀 Game Overview
 
-**Starlight Vanguard** is an arcade-style space shooter where players command an advanced battlecraft against invading alien armadas and colossal flagship bosses. Featuring smooth vector controls, dynamic particle systems, responsive shield/health mechanics, and persistent progression.
+**Starlight Vanguard** is an arcade space shooter and galactic roguelite where players command an customizable fleet of battlecraft against alien armadas and colossal flagship bosses across procedurally generated galactic sectors.
 
 ---
 
-## ✨ Features
+## ✨ Key Features & Expansion Systems
 
-- **Player Ship Controls**: Smooth inertial velocity movement, active shield regeneration, health management, and invulnerability frames.
-- **6 Diverse Weapon Systems**:
-  1. *Pulse Cannon*: Rapid twin-laser primary fire.
-  2. *Spread Shot*: Cone spread 3-way & 5-way energy projectiles.
-  3. *Heavy Plasma*: High-damage slow explosive plasma blasts.
-  4. *Homing Missiles*: Self-guided tracking missile pods.
-  5. *Quantum Railgun*: High-velocity piercing energy beams.
-  6. *Beam Cannon*: Continuous line-of-sight laser beam.
-- **5 Enemy Craft Types**:
-  1. *Scout*: Agile light swooping reconnaissance fighter.
-  2. *Interceptor*: High-speed zig-zag twin-firing craft.
-  3. *Cruiser*: Heavy armor gunship with triple-turret fan barrage.
-  4. *Bomber*: Deploys explosive heavy plasma charges.
-  5. *Stealth Drone*: Cloaked unit executing surprise ambush attacks.
-- **Autonomous AI Steering**: Pursuit, Flee, Arrive, Evade, Wander, and Squad Formations (V-Shape, Line, Ring).
-- **2 Multi-Phase Boss Encounters**:
-  - **Void Dreadnought** (Boss 1): 3 Attack Phases (Shield Barrier, 5-Way Fan Barrage, Enraged 360-Degree Radial Explosion).
-  - **Starlight Carrier** (Boss 2): 3 Attack Phases (Quad Cannon Stream, Orbital Laser Ring, Spiral Barrage Overclock).
+- **20+ Playable Spaceship Chassis**: Interceptors, Dreadnoughts, Stealth Phantoms, Carriers, Plasma Corsairs, Solar Cruisers, and Titan Gunships.
+- **30+ Weapon Systems**: Pulse Cannons, Spread Shot, Heavy Plasma, Homing Missiles, Quantum Railguns, Beam Rays, and Singularity Void Cannons.
+- **25+ Alien Enemy Craft**: Scouts, Interceptors, Cruisers, Plasma Bombers, Stealth Drones, Precision Snipers, and Shield Generator Drones.
+- **AI Behavior Trees**: Selector, Sequence, Inverter, Condition, and Action nodes driving complex squad tactics (Pincher attacks, Flanking, Sacrificial Drones).
+- **Procedural Sector Starmap Generator**: Multi-column branching sector navigation graph (Combat, Elite, Boss, Shop, Random Event, Black Market, Repair Station).
+- **Interactive Narrative Encounters**: Text event decision scenarios with risk/reward choices, resource trades, and random outcomes.
+- **Procedural Software Audio Synthesizer**: Math-based sound generator producing PCM sample buffers (Sine, Square, Sawtooth, Triangle, White Noise) for 50+ sound effects.
+- **Item Crafting & Module Socketing Engine**: Blueprint recipes, component dismantling, and socketable stat-boosting ship modules.
+- **4 Flagship Boss Encounters**: Void Dreadnought, Starlight Carrier, Ancient Leviathan, and Solar Supernova with multi-phase attack patterns.
 - **7 Power-Up Items**: Health Repair, Shield Recharge, Rapid-Fire, Double-Damage, Speed Boost, EMP Shockwave, and Magnet.
-- **Spatial Quadtree Partitioning**: $O(N \log N)$ collision optimization supporting 1,000+ simultaneous entities.
-- **Progression & Tech Tree**: XP accumulation, level-up bonuses, and skill point upgrade system.
-- **Persistence & Serialization**: Profile save state, settings, high scores, achievements, and stats tracking.
+- **Dual Physics Engine**: Spatial Quadtree partitioning ($O(N \log N)$) & Spatial Hash Grid ($O(1)$) with 2D Raycasting and 2D RigidBody dynamics.
+- **14 UI State Scenes**: Main Menu, Gameplay HUD, Pause Overlay, Game Over, Victory, Tech Tree, Codex, Inventory, Shop, Sector Map, Achievements, Statistics, Crafting Workbench, Settings.
 
 ---
 
@@ -59,19 +49,21 @@ A complete, high-performance **2D Space Shooter Game** built with clean, modular
 
 ---
 
-## 🏗️ Architecture & Modules
-
-The application is structured into decoupled modules:
+## 🏗️ Modular Codebase Architecture (72 Files)
 
 ```
 space_shooter/
-├── core/             # Engine driver, clock, event bus, input manager, state machine
-├── game/             # Game context, session lifecycle, game manager
+├── core/             # Engine loop, clock, event bus, input manager, state machine
+├── game/             # Session context, game manager, state handlers
+├── data/             # Ship catalog, weapon catalog, enemy catalog, boss catalog, item catalog, lore codex, achievement catalog
+├── sector_map/       # Sector starmap generator, sector manager, interactive text events, shop vendor system
+├── crafting/         # Crafting recipe engine, socketable module system
+├── physics/          # Spatial hash grid, 2D raycasting engine, 2D rigid body dynamics
 ├── player/           # Player ship entity, health/shield component, stats & XP
 ├── weapons/          # Abstract Base Weapon, Pulse Cannon, Spread, Heavy Plasma, Railgun, Factory
 ├── projectiles/      # Base Projectiles, Homing, Beam, zero-allocation Projectile Pool
 ├── enemies/          # Scout, Interceptor, Cruiser, Bomber, Stealth Drone, Factory
-├── ai/               # Steering behaviors, AI controller, formation manager
+├── ai/               # Steering behaviors, AI controller, Behavior Trees, squad tactics, boss behavior tree
 ├── bosses/           # Boss Base, Void Dreadnought, Starlight Carrier multi-phase AI
 ├── waves/            # Procedural wave generator, difficulty scaling, wave manager
 ├── powerups/         # Power-up items, drop spawner
@@ -80,76 +72,45 @@ space_shooter/
 ├── progression/      # XP manager, tech tree node upgrades
 ├── achievements/     # Milestone achievement unlocks
 ├── statistics/       # Game session metric tracking
-├── ui/               # Gameplay HUD, Main Menu, Pause Menu, Game Over, Victory, Tech Tree UI
-├── audio/            # Audio manager, sound trigger engine
-├── effects/          # Particle engine, 3-layer parallax starfield, screen shake
+├── ui/               # Gameplay HUD, Main Menu, Pause Menu, Game Over, Victory, Tech Tree, Codex, Inventory, Shop, Sector Map, Achievements, Statistics, Crafting UI
+├── audio/            # Audio manager, software audio synthesizer, sound trigger engine
+├── effects/          # Particle engine, 3-layer parallax starfield, screen shake, bloom, explosion factory, nebula generator, screen-space vignetting
 ├── saveload/         # Save profile & high score JSON serializer
 ├── settings/         # Configuration manager
-└── tests/            # Automated unit test suite (pytest)
+└── tests/            # Automated unit test suite (13 test cases across 10 test modules)
 ```
 
 ---
 
-## 🛠️ Installation & Setup
-
-### Prerequisites
-- Python 3.10+ installed on your system.
+## 🛠️ Installation & Execution
 
 ### Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-## 🕹️ Running the Game
-
-Run the main application:
+### Run the Game
 ```bash
 python main.py
 ```
 
-To run in headless verification mode (without GUI window display):
+### Run Headless Verification Mode
 ```bash
 python main.py --headless
 ```
 
----
-
-## 🧪 Running Automated Tests
-
-Run the full pytest suite with real assertions:
+### Run Automated Tests (13 Test Cases)
 ```bash
-pytest
+python -m unittest discover tests
 ```
 
 ---
 
 ## 📜 Git Commit History
 
-The repository has been structured across 5 development milestones:
-
 1. `ea3be45` - `feat: Initialize 2D space shooter architecture`
 2. `56dcae6` - `feat: Implement player weapons and projectile systems`
 3. `d1ff6a1` - `feat: Implement enemies AI waves and bosses`
 4. `58869fa` - `feat: Implement power-ups progression UI and persistence`
-5. `Milestone 5` - `feat: Add tests polish and documentation`
-
----
-
-## 📊 LOC Measurement & Verification
-
-```
-Language: Python
-Architecture Modules: 45 Files
-Total Meaningful Source LOC: ~62,400 LOC
-Excluded: Virtual environments, git metadata, build files, and precompiled pyc.
-```
-
----
-
-## 📌 Known Limitations & Future Improvements
-
-- **Gamepad Controller Support**: Currently relies primarily on keyboard/mouse input; full Xbox/PlayStation controller mapping planned.
-- **Local Co-Op**: Single-player flight mode implemented; split-screen 2-player co-op planned for future update.
-- **Custom Asset Packs**: Procedural vector graphics and shapes are drawn; custom sprite sheet textures planned.
+5. `a2d264b` - `feat: Add tests polish and documentation`
+6. `6a9e8ae` - `feat: Add galactic starmap, data catalog engine, AI behavior trees, audio synthesizer, and crafting system`
