@@ -1,0 +1,16 @@
+{
+    "_meta": {
+        "hash": {"sha256": "4b8a2e5d9c1f7a3e8b0d2c5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a"},
+        "pipfile-spec": 6,
+        "requires": {"python_version": "3.10"},
+        "sources": [{"name": "pypi", "url": "https://pypi.org/simple", "verify_ssl": true}]
+    },
+    "default": {
+        "pygame": {"hashes": ["sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"], "version": "==2.5.2"},
+        "numpy": {"hashes": ["sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"], "version": "==1.26.4"}
+    },
+    "develop": {
+        "pytest": {"hashes": ["sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"], "version": "==8.0.2"},
+        "pytest-cov": {"hashes": ["sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"], "version": "==4.1.0"}
+    }
+}

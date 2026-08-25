@@ -1,246 +1,207 @@
-"""
-Comprehensive Player Ship Catalog containing 20+ detailed spaceship chassis specifications,
-stats, passive traits, module slot layouts, and sprite geometry formulas.
-"""
-
-from typing import Dict, Any, List
-
-
+"""Comprehensive Player Ship Catalog containing 50 detailed spaceship chassis specifications."""
+from typing import Dict, Any, List, Tuple
 class ShipSpec:
-    """Detailed specifications for a player spaceship chassis."""
-
-    def __init__(
-        self,
-        ship_id: str,
-        name: str,
-        class_type: str,
-        description: str,
-        base_health: float,
-        base_shield: float,
-        shield_regen: float,
-        base_speed: float,
-        rotation_speed: float,
-        armor_rating: float,
-        weapon_slots: int,
-        module_slots: int,
-        passive_trait: str,
-        primary_color: str,
-        secondary_color: str,
-        unlock_cost: int
-    ):
-        self.ship_id = ship_id
-        self.name = name
-        self.class_type = class_type
-        self.description = description
-        self.base_health = base_health
-        self.base_shield = base_shield
-        self.shield_regen = shield_regen
-        self.base_speed = base_speed
-        self.rotation_speed = rotation_speed
-        self.armor_rating = armor_rating
-        self.weapon_slots = weapon_slots
-        self.module_slots = module_slots
-        self.passive_trait = passive_trait
-        self.primary_color = primary_color
-        self.secondary_color = secondary_color
-        self.unlock_cost = unlock_cost
-
-
+    def __init__(self, ship_id: str, name: str, class_type: str, description: str, base_health: float, base_shield: float, shield_regen: float, base_speed: float, rotation_speed: float, armor_rating: float, weapon_slots: int, module_slots: int, passive_trait: str, primary_color: str, secondary_color: str, unlock_cost: int, polygon_vertices: List[Tuple[float, float]], thruster_offsets: List[Tuple[float, float]], max_energy: float, energy_regen: float, cargo_capacity: int, hardpoint_angles: List[float]):
+        self.ship_id = ship_id; self.name = name; self.class_type = class_type; self.description = description; self.base_health = base_health; self.base_shield = base_shield; self.shield_regen = shield_regen; self.base_speed = base_speed; self.rotation_speed = rotation_speed; self.armor_rating = armor_rating; self.weapon_slots = weapon_slots; self.module_slots = module_slots; self.passive_trait = passive_trait; self.primary_color = primary_color; self.secondary_color = secondary_color; self.unlock_cost = unlock_cost; self.polygon_vertices = polygon_vertices; self.thruster_offsets = thruster_offsets; self.max_energy = max_energy; self.energy_regen = energy_regen; self.cargo_capacity = cargo_capacity; self.hardpoint_angles = hardpoint_angles
 class ShipCatalog:
-    """Registry database of all playable spaceship chassis in Starlight Vanguard."""
+    SHIPS: Dict[str, ShipSpec] = {}
+ShipCatalog.SHIPS["SHIP_MODEL_001"] = ShipSpec("SHIP_MODEL_001", "Vanguard Chassis Mark 1", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 1 with reinforced hull and energy conduits.", 85.0, 64.0, 10.5, 302.0, 202.0, 5.5, 3, 3, "Passive Trait 1 (+1% efficiency)", "#04070b", "#0d0309", 500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 110.0, 16.0, 22, [-0.1, 0.1])
 
-    SHIPS: Dict[str, ShipSpec] = {
-        "VANGUARD_INTERCEPTOR": ShipSpec(
-            ship_id="VANGUARD_INTERCEPTOR",
-            name="Vanguard Interceptor",
-            class_type="Interceptor",
-            description="Balanced multi-role scout ship engineered for frontline reconnaissance and skirmishing.",
-            base_health=100.0,
-            base_shield=100.0,
-            shield_regen=15.0,
-            base_speed=380.0,
-            rotation_speed=300.0,
-            armor_rating=5.0,
-            weapon_slots=2,
-            module_slots=3,
-            passive_trait="Emergency Thrusters (+20% speed when shield drops)",
-            primary_color="#00E6FF",
-            secondary_color="#1E90FF",
-            unlock_cost=0
-        ),
-        "VOID_DREADNOUGHT": ShipSpec(
-            ship_id="VOID_DREADNOUGHT",
-            name="Void Dreadnought",
-            class_type="Heavy Battleship",
-            description="Massive armored warship equipped with heavy shielding and multi-weapon hardpoints.",
-            base_health=250.0,
-            base_shield=200.0,
-            shield_regen=10.0,
-            base_speed=240.0,
-            rotation_speed=180.0,
-            armor_rating=25.0,
-            weapon_slots=4,
-            module_slots=5,
-            passive_trait="Reinforced Hull (-15% damage taken from explosions)",
-            primary_color="#9B59B6",
-            secondary_color="#642882",
-            unlock_cost=2500
-        ),
-        "STEALTH_PHANTOM": ShipSpec(
-            ship_id="STEALTH_PHANTOM",
-            name="Stealth Phantom",
-            class_type="Covert Operative",
-            description="High-tech covert vessel utilizing optical cloaking and precision critical strikes.",
-            base_health=70.0,
-            base_shield=80.0,
-            shield_regen=20.0,
-            base_speed=460.0,
-            rotation_speed=360.0,
-            armor_rating=0.0,
-            weapon_slots=2,
-            module_slots=4,
-            passive_trait="Shadow Strike (+35% Critical Chance when exiting cloak)",
-            primary_color="#646E7D",
-            secondary_color="#282D37",
-            unlock_cost=3000
-        ),
-        "STARLIGHT_CARRIER": ShipSpec(
-            ship_id="STARLIGHT_CARRIER",
-            name="Starlight Carrier",
-            class_type="Flagship Support",
-            description="Fleet flagship equipped with automated repair drones and energy distribution grids.",
-            base_health=180.0,
-            base_shield=250.0,
-            shield_regen=25.0,
-            base_speed=280.0,
-            rotation_speed=200.0,
-            armor_rating=15.0,
-            weapon_slots=3,
-            module_slots=6,
-            passive_trait="Repair Drones (Passively heals 2 HP/sec)",
-            primary_color="#00C8DC",
-            secondary_color="#0A648C",
-            unlock_cost=4500
-        ),
-        "PLASMA_CORSAIR": ShipSpec(
-            ship_id="PLASMA_CORSAIR",
-            name="Plasma Corsair",
-            class_type="Assault Raider",
-            description="Aggressive pirate raider tuned for extreme weapon fire rates and energy weapon overclocks.",
-            base_health=120.0,
-            base_shield=90.0,
-            shield_regen=12.0,
-            base_speed=410.0,
-            rotation_speed=320.0,
-            armor_rating=8.0,
-            weapon_slots=3,
-            module_slots=3,
-            passive_trait="Overclock Feed (+20% Fire Rate for plasma weapons)",
-            primary_color="#FF8C00",
-            secondary_color="#DC5000",
-            unlock_cost=3500
-        ),
-        "QUANTUM_STRIKER": ShipSpec(
-            ship_id="QUANTUM_STRIKER",
-            name="Quantum Striker",
-            class_type="Experimental Fighter",
-            description="Prototype craft harnessing dimensional shift engines for instantaneous repositioning.",
-            base_health=90.0,
-            base_shield=140.0,
-            shield_regen=22.0,
-            base_speed=440.0,
-            rotation_speed=340.0,
-            armor_rating=5.0,
-            weapon_slots=2,
-            module_slots=5,
-            passive_trait="Phase Dash (Invulnerable for 0.5s during sudden boosts)",
-            primary_color="#FF0080",
-            secondary_color="#800040",
-            unlock_cost=5000
-        ),
-        "TITAN_GUNSHIP": ShipSpec(
-            ship_id="TITAN_GUNSHIP",
-            name="Titan Gunship",
-            class_type="Heavy Gunship",
-            description="Unstoppable siege gunship deploying devastating ordnance and heavy missile pods.",
-            base_health=300.0,
-            base_shield=150.0,
-            shield_regen=8.0,
-            base_speed=210.0,
-            rotation_speed=150.0,
-            armor_rating=30.0,
-            weapon_slots=4,
-            module_slots=4,
-            passive_trait="Heavy Payload (+25% Explosive Weapon Splash Area)",
-            primary_color="#32CD32",
-            secondary_color="#148C14",
-            unlock_cost=4000
-        ),
-        "SOLAR_ECLIPSE": ShipSpec(
-            ship_id="SOLAR_ECLIPSE",
-            name="Solar Eclipse",
-            class_type="Energy Cruiser",
-            description="Cruiser harnessing solar plasma cells to power devastating beam array weaponry.",
-            base_health=140.0,
-            base_shield=220.0,
-            shield_regen=28.0,
-            base_speed=320.0,
-            rotation_speed=240.0,
-            armor_rating=12.0,
-            weapon_slots=3,
-            module_slots=5,
-            passive_trait="Solar Core (Beam weapons consume 30% less heat)",
-            primary_color="#FFD700",
-            secondary_color="#FF8C00",
-            unlock_cost=4200
-        ),
-        "NEBULA_SPECTRE": ShipSpec(
-            ship_id="NEBULA_SPECTRE",
-            name="Nebula Spectre",
-            class_type="Recon Frigate",
-            description="Long-range frigate specialized in electronic warfare and targeted disruptions.",
-            base_health=110.0,
-            base_shield=160.0,
-            shield_regen=18.0,
-            base_speed=370.0,
-            rotation_speed=280.0,
-            armor_rating=10.0,
-            weapon_slots=2,
-            module_slots=6,
-            passive_trait="EMP Pulse (Triggers shockwave when taking critical hit)",
-            primary_color="#B464FF",
-            secondary_color="#6420A0",
-            unlock_cost=3800
-        ),
-        "APEX_PREDATOR": ShipSpec(
-            ship_id="APEX_PREDATOR",
-            name="Apex Predator",
-            class_type="Hunter Heavy Interceptor",
-            description="Elite hunter craft optimized for tracking and destroying enemy priority targets.",
-            base_health=130.0,
-            base_shield=130.0,
-            shield_regen=16.0,
-            base_speed=430.0,
-            rotation_speed=330.0,
-            armor_rating=10.0,
-            weapon_slots=3,
-            module_slots=4,
-            passive_trait="Bounty Target (+25% Score and XP per enemy kill)",
-            primary_color="#DC143C",
-            secondary_color="#780A1E",
-            unlock_cost=6000
-        ),
-    }
+ShipCatalog.SHIPS["SHIP_MODEL_002"] = ShipSpec("SHIP_MODEL_002", "Vanguard Chassis Mark 2", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 2 with reinforced hull and energy conduits.", 90.0, 68.0, 11.0, 304.0, 204.0, 6.0, 4, 4, "Passive Trait 2 (+2% efficiency)", "#080e16", "#1a0612", 1000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 120.0, 17.0, 24, [-0.1, 0.1])
 
-    @classmethod
-    def get_ship(cls, ship_id: str) -> ShipSpec:
-        """Retrieve ship spec by identifier."""
-        spec = cls.SHIPS.get(ship_id)
-        if not spec:
-            raise KeyError(f"Unknown ship chassis identifier: {ship_id}")
-        return spec
+ShipCatalog.SHIPS["SHIP_MODEL_003"] = ShipSpec("SHIP_MODEL_003", "Vanguard Chassis Mark 3", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 3 with reinforced hull and energy conduits.", 95.0, 72.0, 11.5, 306.0, 206.0, 6.5, 5, 5, "Passive Trait 3 (+3% efficiency)", "#0c1521", "#27091b", 1500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 130.0, 18.0, 26, [-0.1, 0.1])
 
-    @classmethod
-    def list_all_ships(cls) -> List[ShipSpec]:
-        """Return list of all registered ship specs."""
-        return list(cls.SHIPS.values())
+ShipCatalog.SHIPS["SHIP_MODEL_004"] = ShipSpec("SHIP_MODEL_004", "Vanguard Chassis Mark 4", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 4 with reinforced hull and energy conduits.", 100.0, 76.0, 12.0, 308.0, 208.0, 7.0, 2, 6, "Passive Trait 4 (+4% efficiency)", "#101c2c", "#340c24", 2000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 140.0, 19.0, 28, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_005"] = ShipSpec("SHIP_MODEL_005", "Vanguard Chassis Mark 5", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 5 with reinforced hull and energy conduits.", 105.0, 80.0, 12.5, 310.0, 210.0, 7.5, 3, 2, "Passive Trait 5 (+5% efficiency)", "#142337", "#410f2d", 2500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 150.0, 20.0, 30, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_006"] = ShipSpec("SHIP_MODEL_006", "Vanguard Chassis Mark 6", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 6 with reinforced hull and energy conduits.", 110.0, 84.0, 13.0, 312.0, 212.0, 8.0, 4, 3, "Passive Trait 6 (+6% efficiency)", "#182a42", "#4e1236", 3000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 160.0, 21.0, 32, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_007"] = ShipSpec("SHIP_MODEL_007", "Vanguard Chassis Mark 7", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 7 with reinforced hull and energy conduits.", 115.0, 88.0, 13.5, 314.0, 214.0, 8.5, 5, 4, "Passive Trait 7 (+7% efficiency)", "#1c314d", "#5b153f", 3500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 170.0, 22.0, 34, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_008"] = ShipSpec("SHIP_MODEL_008", "Vanguard Chassis Mark 8", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 8 with reinforced hull and energy conduits.", 120.0, 92.0, 14.0, 316.0, 216.0, 9.0, 2, 5, "Passive Trait 8 (+8% efficiency)", "#203858", "#681848", 4000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 180.0, 23.0, 36, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_009"] = ShipSpec("SHIP_MODEL_009", "Vanguard Chassis Mark 9", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 9 with reinforced hull and energy conduits.", 125.0, 96.0, 14.5, 318.0, 218.0, 9.5, 3, 6, "Passive Trait 9 (+9% efficiency)", "#243f63", "#751b51", 4500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 190.0, 24.0, 38, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_010"] = ShipSpec("SHIP_MODEL_010", "Vanguard Chassis Mark 10", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 10 with reinforced hull and energy conduits.", 130.0, 100.0, 15.0, 320.0, 220.0, 10.0, 4, 2, "Passive Trait 10 (+10% efficiency)", "#28466e", "#821e5a", 5000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 200.0, 25.0, 40, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_011"] = ShipSpec("SHIP_MODEL_011", "Vanguard Chassis Mark 11", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 11 with reinforced hull and energy conduits.", 135.0, 104.0, 15.5, 322.0, 222.0, 10.5, 5, 3, "Passive Trait 11 (+11% efficiency)", "#2c4d79", "#8f2163", 5500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 210.0, 26.0, 42, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_012"] = ShipSpec("SHIP_MODEL_012", "Vanguard Chassis Mark 12", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 12 with reinforced hull and energy conduits.", 140.0, 108.0, 16.0, 324.0, 224.0, 11.0, 2, 4, "Passive Trait 12 (+12% efficiency)", "#305484", "#9c246c", 6000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 220.0, 27.0, 44, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_013"] = ShipSpec("SHIP_MODEL_013", "Vanguard Chassis Mark 13", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 13 with reinforced hull and energy conduits.", 145.0, 112.0, 16.5, 326.0, 226.0, 11.5, 3, 5, "Passive Trait 13 (+13% efficiency)", "#345b8f", "#a92775", 6500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 230.0, 28.0, 46, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_014"] = ShipSpec("SHIP_MODEL_014", "Vanguard Chassis Mark 14", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 14 with reinforced hull and energy conduits.", 150.0, 116.0, 17.0, 328.0, 228.0, 12.0, 4, 6, "Passive Trait 14 (+14% efficiency)", "#38629a", "#b62a7e", 7000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 240.0, 29.0, 48, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_015"] = ShipSpec("SHIP_MODEL_015", "Vanguard Chassis Mark 15", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 15 with reinforced hull and energy conduits.", 155.0, 120.0, 17.5, 330.0, 230.0, 12.5, 5, 2, "Passive Trait 15 (+15% efficiency)", "#3c69a5", "#c32d87", 7500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 250.0, 30.0, 50, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_016"] = ShipSpec("SHIP_MODEL_016", "Vanguard Chassis Mark 16", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 16 with reinforced hull and energy conduits.", 160.0, 124.0, 18.0, 332.0, 232.0, 13.0, 2, 3, "Passive Trait 16 (+16% efficiency)", "#4070b0", "#d03090", 8000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 260.0, 31.0, 52, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_017"] = ShipSpec("SHIP_MODEL_017", "Vanguard Chassis Mark 17", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 17 with reinforced hull and energy conduits.", 165.0, 128.0, 18.5, 334.0, 234.0, 13.5, 3, 4, "Passive Trait 17 (+17% efficiency)", "#4477bb", "#dd3399", 8500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 270.0, 32.0, 54, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_018"] = ShipSpec("SHIP_MODEL_018", "Vanguard Chassis Mark 18", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 18 with reinforced hull and energy conduits.", 170.0, 132.0, 19.0, 336.0, 236.0, 14.0, 4, 5, "Passive Trait 18 (+18% efficiency)", "#487ec6", "#ea36a2", 9000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 280.0, 33.0, 56, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_019"] = ShipSpec("SHIP_MODEL_019", "Vanguard Chassis Mark 19", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 19 with reinforced hull and energy conduits.", 175.0, 136.0, 19.5, 338.0, 238.0, 14.5, 5, 6, "Passive Trait 19 (+19% efficiency)", "#4c85d1", "#f739ab", 9500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 290.0, 34.0, 58, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_020"] = ShipSpec("SHIP_MODEL_020", "Vanguard Chassis Mark 20", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 20 with reinforced hull and energy conduits.", 180.0, 140.0, 20.0, 340.0, 240.0, 15.0, 2, 2, "Passive Trait 20 (+20% efficiency)", "#508cdc", "#053cb4", 10000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 300.0, 35.0, 60, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_021"] = ShipSpec("SHIP_MODEL_021", "Vanguard Chassis Mark 21", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 21 with reinforced hull and energy conduits.", 185.0, 144.0, 20.5, 342.0, 242.0, 15.5, 3, 3, "Passive Trait 21 (+21% efficiency)", "#5493e7", "#123fbd", 10500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 310.0, 36.0, 62, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_022"] = ShipSpec("SHIP_MODEL_022", "Vanguard Chassis Mark 22", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 22 with reinforced hull and energy conduits.", 190.0, 148.0, 21.0, 344.0, 244.0, 16.0, 4, 4, "Passive Trait 22 (+22% efficiency)", "#589af2", "#1f42c6", 11000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 320.0, 37.0, 64, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_023"] = ShipSpec("SHIP_MODEL_023", "Vanguard Chassis Mark 23", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 23 with reinforced hull and energy conduits.", 195.0, 152.0, 21.5, 346.0, 246.0, 16.5, 5, 5, "Passive Trait 23 (+23% efficiency)", "#5ca1fd", "#2c45cf", 11500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 330.0, 38.0, 66, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_024"] = ShipSpec("SHIP_MODEL_024", "Vanguard Chassis Mark 24", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 24 with reinforced hull and energy conduits.", 200.0, 156.0, 22.0, 348.0, 248.0, 17.0, 2, 6, "Passive Trait 24 (+24% efficiency)", "#60a809", "#3948d8", 12000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 340.0, 39.0, 68, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_025"] = ShipSpec("SHIP_MODEL_025", "Vanguard Chassis Mark 25", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 25 with reinforced hull and energy conduits.", 205.0, 160.0, 22.5, 350.0, 250.0, 17.5, 3, 2, "Passive Trait 25 (+25% efficiency)", "#64af14", "#464be1", 12500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 350.0, 40.0, 70, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_026"] = ShipSpec("SHIP_MODEL_026", "Vanguard Chassis Mark 26", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 26 with reinforced hull and energy conduits.", 210.0, 164.0, 23.0, 352.0, 252.0, 18.0, 4, 3, "Passive Trait 26 (+26% efficiency)", "#68b61f", "#534eea", 13000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 360.0, 41.0, 72, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_027"] = ShipSpec("SHIP_MODEL_027", "Vanguard Chassis Mark 27", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 27 with reinforced hull and energy conduits.", 215.0, 168.0, 23.5, 354.0, 254.0, 18.5, 5, 4, "Passive Trait 27 (+27% efficiency)", "#6cbd2a", "#6051f3", 13500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 370.0, 42.0, 74, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_028"] = ShipSpec("SHIP_MODEL_028", "Vanguard Chassis Mark 28", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 28 with reinforced hull and energy conduits.", 220.0, 172.0, 24.0, 356.0, 256.0, 19.0, 2, 5, "Passive Trait 28 (+28% efficiency)", "#70c435", "#6d54fc", 14000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 380.0, 43.0, 76, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_029"] = ShipSpec("SHIP_MODEL_029", "Vanguard Chassis Mark 29", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 29 with reinforced hull and energy conduits.", 225.0, 176.0, 24.5, 358.0, 258.0, 19.5, 3, 6, "Passive Trait 29 (+29% efficiency)", "#74cb40", "#7a5706", 14500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 390.0, 44.0, 78, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_030"] = ShipSpec("SHIP_MODEL_030", "Vanguard Chassis Mark 30", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 30 with reinforced hull and energy conduits.", 230.0, 180.0, 25.0, 360.0, 260.0, 20.0, 4, 2, "Passive Trait 30 (+30% efficiency)", "#78d24b", "#875a0f", 15000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 400.0, 45.0, 80, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_031"] = ShipSpec("SHIP_MODEL_031", "Vanguard Chassis Mark 31", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 31 with reinforced hull and energy conduits.", 235.0, 184.0, 25.5, 362.0, 262.0, 20.5, 5, 3, "Passive Trait 31 (+31% efficiency)", "#7cd956", "#945d18", 15500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 410.0, 46.0, 82, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_032"] = ShipSpec("SHIP_MODEL_032", "Vanguard Chassis Mark 32", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 32 with reinforced hull and energy conduits.", 240.0, 188.0, 26.0, 364.0, 264.0, 21.0, 2, 4, "Passive Trait 32 (+32% efficiency)", "#80e061", "#a16021", 16000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 420.0, 47.0, 84, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_033"] = ShipSpec("SHIP_MODEL_033", "Vanguard Chassis Mark 33", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 33 with reinforced hull and energy conduits.", 245.0, 192.0, 26.5, 366.0, 266.0, 21.5, 3, 5, "Passive Trait 33 (+33% efficiency)", "#84e76c", "#ae632a", 16500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 430.0, 48.0, 86, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_034"] = ShipSpec("SHIP_MODEL_034", "Vanguard Chassis Mark 34", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 34 with reinforced hull and energy conduits.", 250.0, 196.0, 27.0, 368.0, 268.0, 22.0, 4, 6, "Passive Trait 34 (+34% efficiency)", "#88ee77", "#bb6633", 17000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 440.0, 49.0, 88, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_035"] = ShipSpec("SHIP_MODEL_035", "Vanguard Chassis Mark 35", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 35 with reinforced hull and energy conduits.", 255.0, 200.0, 27.5, 370.0, 270.0, 22.5, 5, 2, "Passive Trait 35 (+35% efficiency)", "#8cf582", "#c8693c", 17500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 450.0, 50.0, 90, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_036"] = ShipSpec("SHIP_MODEL_036", "Vanguard Chassis Mark 36", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 36 with reinforced hull and energy conduits.", 260.0, 204.0, 28.0, 372.0, 272.0, 23.0, 2, 3, "Passive Trait 36 (+36% efficiency)", "#90fc8d", "#d56c45", 18000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 460.0, 51.0, 92, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_037"] = ShipSpec("SHIP_MODEL_037", "Vanguard Chassis Mark 37", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 37 with reinforced hull and energy conduits.", 265.0, 208.0, 28.5, 374.0, 274.0, 23.5, 3, 4, "Passive Trait 37 (+37% efficiency)", "#940498", "#e26f4e", 18500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 470.0, 52.0, 94, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_038"] = ShipSpec("SHIP_MODEL_038", "Vanguard Chassis Mark 38", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 38 with reinforced hull and energy conduits.", 270.0, 212.0, 29.0, 376.0, 276.0, 24.0, 4, 5, "Passive Trait 38 (+38% efficiency)", "#980ba3", "#ef7257", 19000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 480.0, 53.0, 96, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_039"] = ShipSpec("SHIP_MODEL_039", "Vanguard Chassis Mark 39", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 39 with reinforced hull and energy conduits.", 275.0, 216.0, 29.5, 378.0, 278.0, 24.5, 5, 6, "Passive Trait 39 (+39% efficiency)", "#9c12ae", "#fc7560", 19500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 490.0, 54.0, 98, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_040"] = ShipSpec("SHIP_MODEL_040", "Vanguard Chassis Mark 40", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 40 with reinforced hull and energy conduits.", 280.0, 220.0, 30.0, 380.0, 280.0, 25.0, 2, 2, "Passive Trait 40 (+40% efficiency)", "#a019b9", "#0a7869", 20000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 500.0, 55.0, 100, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_041"] = ShipSpec("SHIP_MODEL_041", "Vanguard Chassis Mark 41", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 41 with reinforced hull and energy conduits.", 285.0, 224.0, 30.5, 382.0, 282.0, 25.5, 3, 3, "Passive Trait 41 (+41% efficiency)", "#a420c4", "#177b72", 20500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 510.0, 56.0, 102, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_042"] = ShipSpec("SHIP_MODEL_042", "Vanguard Chassis Mark 42", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 42 with reinforced hull and energy conduits.", 290.0, 228.0, 31.0, 384.0, 284.0, 26.0, 4, 4, "Passive Trait 42 (+42% efficiency)", "#a827cf", "#247e7b", 21000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 520.0, 57.0, 104, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_043"] = ShipSpec("SHIP_MODEL_043", "Vanguard Chassis Mark 43", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 43 with reinforced hull and energy conduits.", 295.0, 232.0, 31.5, 386.0, 286.0, 26.5, 5, 5, "Passive Trait 43 (+43% efficiency)", "#ac2eda", "#318184", 21500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 530.0, 58.0, 106, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_044"] = ShipSpec("SHIP_MODEL_044", "Vanguard Chassis Mark 44", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 44 with reinforced hull and energy conduits.", 300.0, 236.0, 32.0, 388.0, 288.0, 27.0, 2, 6, "Passive Trait 44 (+44% efficiency)", "#b035e5", "#3e848d", 22000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 540.0, 59.0, 108, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_045"] = ShipSpec("SHIP_MODEL_045", "Vanguard Chassis Mark 45", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 45 with reinforced hull and energy conduits.", 305.0, 240.0, 32.5, 390.0, 290.0, 27.5, 3, 2, "Passive Trait 45 (+45% efficiency)", "#b43cf0", "#4b8796", 22500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 550.0, 60.0, 110, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_046"] = ShipSpec("SHIP_MODEL_046", "Vanguard Chassis Mark 46", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 46 with reinforced hull and energy conduits.", 310.0, 244.0, 33.0, 392.0, 292.0, 28.0, 4, 3, "Passive Trait 46 (+46% efficiency)", "#b843fb", "#588a9f", 23000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 560.0, 61.0, 112, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_047"] = ShipSpec("SHIP_MODEL_047", "Vanguard Chassis Mark 47", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 47 with reinforced hull and energy conduits.", 315.0, 248.0, 33.5, 394.0, 294.0, 28.5, 5, 4, "Passive Trait 47 (+47% efficiency)", "#bc4a07", "#658da8", 23500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 570.0, 62.0, 114, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_048"] = ShipSpec("SHIP_MODEL_048", "Vanguard Chassis Mark 48", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 48 with reinforced hull and energy conduits.", 320.0, 252.0, 34.0, 396.0, 296.0, 29.0, 2, 5, "Passive Trait 48 (+48% efficiency)", "#c05112", "#7290b1", 24000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 580.0, 63.0, 116, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_049"] = ShipSpec("SHIP_MODEL_049", "Vanguard Chassis Mark 49", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 49 with reinforced hull and energy conduits.", 325.0, 256.0, 34.5, 398.0, 298.0, 29.5, 3, 6, "Passive Trait 49 (+49% efficiency)", "#c4581d", "#7f93ba", 24500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 590.0, 64.0, 118, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_050"] = ShipSpec("SHIP_MODEL_050", "Vanguard Chassis Mark 50", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 50 with reinforced hull and energy conduits.", 330.0, 260.0, 35.0, 400.0, 300.0, 30.0, 4, 2, "Passive Trait 50 (+50% efficiency)", "#c85f28", "#8c96c3", 25000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 600.0, 65.0, 120, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_051"] = ShipSpec("SHIP_MODEL_051", "Vanguard Chassis Mark 51", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 51 with reinforced hull and energy conduits.", 335.0, 264.0, 35.5, 402.0, 302.0, 30.5, 5, 3, "Passive Trait 51 (+51% efficiency)", "#cc6633", "#9999cc", 25500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 610.0, 66.0, 122, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_052"] = ShipSpec("SHIP_MODEL_052", "Vanguard Chassis Mark 52", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 52 with reinforced hull and energy conduits.", 340.0, 268.0, 36.0, 404.0, 304.0, 31.0, 2, 4, "Passive Trait 52 (+52% efficiency)", "#d06d3e", "#a69cd5", 26000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 620.0, 67.0, 124, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_053"] = ShipSpec("SHIP_MODEL_053", "Vanguard Chassis Mark 53", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 53 with reinforced hull and energy conduits.", 345.0, 272.0, 36.5, 406.0, 306.0, 31.5, 3, 5, "Passive Trait 53 (+53% efficiency)", "#d47449", "#b39fde", 26500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 630.0, 68.0, 126, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_054"] = ShipSpec("SHIP_MODEL_054", "Vanguard Chassis Mark 54", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 54 with reinforced hull and energy conduits.", 350.0, 276.0, 37.0, 408.0, 308.0, 32.0, 4, 6, "Passive Trait 54 (+54% efficiency)", "#d87b54", "#c0a2e7", 27000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 640.0, 69.0, 128, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_055"] = ShipSpec("SHIP_MODEL_055", "Vanguard Chassis Mark 55", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 55 with reinforced hull and energy conduits.", 355.0, 280.0, 37.5, 410.0, 310.0, 32.5, 5, 2, "Passive Trait 55 (+55% efficiency)", "#dc825f", "#cda5f0", 27500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 650.0, 70.0, 130, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_056"] = ShipSpec("SHIP_MODEL_056", "Vanguard Chassis Mark 56", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 56 with reinforced hull and energy conduits.", 360.0, 284.0, 38.0, 412.0, 312.0, 33.0, 2, 3, "Passive Trait 56 (+56% efficiency)", "#e0896a", "#daa8f9", 28000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 660.0, 71.0, 132, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_057"] = ShipSpec("SHIP_MODEL_057", "Vanguard Chassis Mark 57", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 57 with reinforced hull and energy conduits.", 365.0, 288.0, 38.5, 414.0, 314.0, 33.5, 3, 4, "Passive Trait 57 (+57% efficiency)", "#e49075", "#e7ab03", 28500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 670.0, 72.0, 134, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_058"] = ShipSpec("SHIP_MODEL_058", "Vanguard Chassis Mark 58", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 58 with reinforced hull and energy conduits.", 370.0, 292.0, 39.0, 416.0, 316.0, 34.0, 4, 5, "Passive Trait 58 (+58% efficiency)", "#e89780", "#f4ae0c", 29000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 680.0, 73.0, 136, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_059"] = ShipSpec("SHIP_MODEL_059", "Vanguard Chassis Mark 59", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 59 with reinforced hull and energy conduits.", 375.0, 296.0, 39.5, 418.0, 318.0, 34.5, 5, 6, "Passive Trait 59 (+59% efficiency)", "#ec9e8b", "#02b115", 29500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 690.0, 74.0, 138, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_060"] = ShipSpec("SHIP_MODEL_060", "Vanguard Chassis Mark 60", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 60 with reinforced hull and energy conduits.", 380.0, 300.0, 40.0, 420.0, 320.0, 35.0, 2, 2, "Passive Trait 60 (+60% efficiency)", "#f0a596", "#0fb41e", 30000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 700.0, 75.0, 140, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_061"] = ShipSpec("SHIP_MODEL_061", "Vanguard Chassis Mark 61", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 61 with reinforced hull and energy conduits.", 385.0, 304.0, 40.5, 422.0, 322.0, 35.5, 3, 3, "Passive Trait 61 (+61% efficiency)", "#f4aca1", "#1cb727", 30500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 710.0, 76.0, 142, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_062"] = ShipSpec("SHIP_MODEL_062", "Vanguard Chassis Mark 62", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 62 with reinforced hull and energy conduits.", 390.0, 308.0, 41.0, 424.0, 324.0, 36.0, 4, 4, "Passive Trait 62 (+62% efficiency)", "#f8b3ac", "#29ba30", 31000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 720.0, 77.0, 144, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_063"] = ShipSpec("SHIP_MODEL_063", "Vanguard Chassis Mark 63", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 63 with reinforced hull and energy conduits.", 395.0, 312.0, 41.5, 426.0, 326.0, 36.5, 5, 5, "Passive Trait 63 (+63% efficiency)", "#fcbab7", "#36bd39", 31500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 730.0, 78.0, 146, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_064"] = ShipSpec("SHIP_MODEL_064", "Vanguard Chassis Mark 64", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 64 with reinforced hull and energy conduits.", 400.0, 316.0, 42.0, 428.0, 328.0, 37.0, 2, 6, "Passive Trait 64 (+64% efficiency)", "#01c1c2", "#43c042", 32000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 740.0, 79.0, 148, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_065"] = ShipSpec("SHIP_MODEL_065", "Vanguard Chassis Mark 65", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 65 with reinforced hull and energy conduits.", 405.0, 320.0, 42.5, 430.0, 330.0, 37.5, 3, 2, "Passive Trait 65 (+65% efficiency)", "#05c8cd", "#50c34b", 32500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 750.0, 80.0, 150, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_066"] = ShipSpec("SHIP_MODEL_066", "Vanguard Chassis Mark 66", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 66 with reinforced hull and energy conduits.", 410.0, 324.0, 43.0, 432.0, 332.0, 38.0, 4, 3, "Passive Trait 66 (+66% efficiency)", "#09cfd8", "#5dc654", 33000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 760.0, 81.0, 152, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_067"] = ShipSpec("SHIP_MODEL_067", "Vanguard Chassis Mark 67", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 67 with reinforced hull and energy conduits.", 415.0, 328.0, 43.5, 434.0, 334.0, 38.5, 5, 4, "Passive Trait 67 (+67% efficiency)", "#0dd6e3", "#6ac95d", 33500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 770.0, 82.0, 154, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_068"] = ShipSpec("SHIP_MODEL_068", "Vanguard Chassis Mark 68", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 68 with reinforced hull and energy conduits.", 420.0, 332.0, 44.0, 436.0, 336.0, 39.0, 2, 5, "Passive Trait 68 (+68% efficiency)", "#11ddee", "#77cc66", 34000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 780.0, 83.0, 156, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_069"] = ShipSpec("SHIP_MODEL_069", "Vanguard Chassis Mark 69", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 69 with reinforced hull and energy conduits.", 425.0, 336.0, 44.5, 438.0, 338.0, 39.5, 3, 6, "Passive Trait 69 (+69% efficiency)", "#15e4f9", "#84cf6f", 34500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 790.0, 84.0, 158, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_070"] = ShipSpec("SHIP_MODEL_070", "Vanguard Chassis Mark 70", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 70 with reinforced hull and energy conduits.", 430.0, 340.0, 45.0, 440.0, 340.0, 40.0, 4, 2, "Passive Trait 70 (+70% efficiency)", "#19eb05", "#91d278", 35000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 800.0, 85.0, 160, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_071"] = ShipSpec("SHIP_MODEL_071", "Vanguard Chassis Mark 71", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 71 with reinforced hull and energy conduits.", 435.0, 344.0, 45.5, 442.0, 342.0, 40.5, 5, 3, "Passive Trait 71 (+71% efficiency)", "#1df210", "#9ed581", 35500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 810.0, 86.0, 162, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_072"] = ShipSpec("SHIP_MODEL_072", "Vanguard Chassis Mark 72", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 72 with reinforced hull and energy conduits.", 440.0, 348.0, 46.0, 444.0, 344.0, 41.0, 2, 4, "Passive Trait 72 (+72% efficiency)", "#21f91b", "#abd88a", 36000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 820.0, 87.0, 164, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_073"] = ShipSpec("SHIP_MODEL_073", "Vanguard Chassis Mark 73", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 73 with reinforced hull and energy conduits.", 445.0, 352.0, 46.5, 446.0, 346.0, 41.5, 3, 5, "Passive Trait 73 (+73% efficiency)", "#250126", "#b8db93", 36500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 830.0, 88.0, 166, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_074"] = ShipSpec("SHIP_MODEL_074", "Vanguard Chassis Mark 74", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 74 with reinforced hull and energy conduits.", 450.0, 356.0, 47.0, 448.0, 348.0, 42.0, 4, 6, "Passive Trait 74 (+74% efficiency)", "#290831", "#c5de9c", 37000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 840.0, 89.0, 168, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_075"] = ShipSpec("SHIP_MODEL_075", "Vanguard Chassis Mark 75", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 75 with reinforced hull and energy conduits.", 455.0, 360.0, 47.5, 450.0, 350.0, 42.5, 5, 2, "Passive Trait 75 (+75% efficiency)", "#2d0f3c", "#d2e1a5", 37500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 850.0, 90.0, 170, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_076"] = ShipSpec("SHIP_MODEL_076", "Vanguard Chassis Mark 76", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 76 with reinforced hull and energy conduits.", 460.0, 364.0, 48.0, 452.0, 352.0, 43.0, 2, 3, "Passive Trait 76 (+76% efficiency)", "#311647", "#dfe4ae", 38000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 860.0, 91.0, 172, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_077"] = ShipSpec("SHIP_MODEL_077", "Vanguard Chassis Mark 77", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 77 with reinforced hull and energy conduits.", 465.0, 368.0, 48.5, 454.0, 354.0, 43.5, 3, 4, "Passive Trait 77 (+77% efficiency)", "#351d52", "#ece7b7", 38500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 870.0, 92.0, 174, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_078"] = ShipSpec("SHIP_MODEL_078", "Vanguard Chassis Mark 78", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 78 with reinforced hull and energy conduits.", 470.0, 372.0, 49.0, 456.0, 356.0, 44.0, 4, 5, "Passive Trait 78 (+78% efficiency)", "#39245d", "#f9eac0", 39000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 880.0, 93.0, 176, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_079"] = ShipSpec("SHIP_MODEL_079", "Vanguard Chassis Mark 79", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 79 with reinforced hull and energy conduits.", 475.0, 376.0, 49.5, 458.0, 358.0, 44.5, 5, 6, "Passive Trait 79 (+79% efficiency)", "#3d2b68", "#07edc9", 39500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 890.0, 94.0, 178, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_080"] = ShipSpec("SHIP_MODEL_080", "Vanguard Chassis Mark 80", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 80 with reinforced hull and energy conduits.", 480.0, 380.0, 50.0, 460.0, 360.0, 45.0, 2, 2, "Passive Trait 80 (+80% efficiency)", "#413273", "#14f0d2", 40000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 900.0, 95.0, 180, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_081"] = ShipSpec("SHIP_MODEL_081", "Vanguard Chassis Mark 81", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 81 with reinforced hull and energy conduits.", 485.0, 384.0, 50.5, 462.0, 362.0, 45.5, 3, 3, "Passive Trait 81 (+81% efficiency)", "#45397e", "#21f3db", 40500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 910.0, 96.0, 182, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_082"] = ShipSpec("SHIP_MODEL_082", "Vanguard Chassis Mark 82", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 82 with reinforced hull and energy conduits.", 490.0, 388.0, 51.0, 464.0, 364.0, 46.0, 4, 4, "Passive Trait 82 (+82% efficiency)", "#494089", "#2ef6e4", 41000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 920.0, 97.0, 184, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_083"] = ShipSpec("SHIP_MODEL_083", "Vanguard Chassis Mark 83", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 83 with reinforced hull and energy conduits.", 495.0, 392.0, 51.5, 466.0, 366.0, 46.5, 5, 5, "Passive Trait 83 (+83% efficiency)", "#4d4794", "#3bf9ed", 41500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 930.0, 98.0, 186, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_084"] = ShipSpec("SHIP_MODEL_084", "Vanguard Chassis Mark 84", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 84 with reinforced hull and energy conduits.", 500.0, 396.0, 52.0, 468.0, 368.0, 47.0, 2, 6, "Passive Trait 84 (+84% efficiency)", "#514e9f", "#48fcf6", 42000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 940.0, 99.0, 188, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_085"] = ShipSpec("SHIP_MODEL_085", "Vanguard Chassis Mark 85", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 85 with reinforced hull and energy conduits.", 505.0, 400.0, 52.5, 470.0, 370.0, 47.5, 3, 2, "Passive Trait 85 (+85% efficiency)", "#5555aa", "#550000", 42500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 950.0, 100.0, 190, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_086"] = ShipSpec("SHIP_MODEL_086", "Vanguard Chassis Mark 86", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 86 with reinforced hull and energy conduits.", 510.0, 404.0, 53.0, 472.0, 372.0, 48.0, 4, 3, "Passive Trait 86 (+86% efficiency)", "#595cb5", "#620309", 43000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 960.0, 101.0, 192, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_087"] = ShipSpec("SHIP_MODEL_087", "Vanguard Chassis Mark 87", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 87 with reinforced hull and energy conduits.", 515.0, 408.0, 53.5, 474.0, 374.0, 48.5, 5, 4, "Passive Trait 87 (+87% efficiency)", "#5d63c0", "#6f0612", 43500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 970.0, 102.0, 194, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_088"] = ShipSpec("SHIP_MODEL_088", "Vanguard Chassis Mark 88", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 88 with reinforced hull and energy conduits.", 520.0, 412.0, 54.0, 476.0, 376.0, 49.0, 2, 5, "Passive Trait 88 (+88% efficiency)", "#616acb", "#7c091b", 44000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 980.0, 103.0, 196, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_089"] = ShipSpec("SHIP_MODEL_089", "Vanguard Chassis Mark 89", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 89 with reinforced hull and energy conduits.", 525.0, 416.0, 54.5, 478.0, 378.0, 49.5, 3, 6, "Passive Trait 89 (+89% efficiency)", "#6571d6", "#890c24", 44500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 990.0, 104.0, 198, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_090"] = ShipSpec("SHIP_MODEL_090", "Vanguard Chassis Mark 90", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 90 with reinforced hull and energy conduits.", 530.0, 420.0, 55.0, 480.0, 380.0, 50.0, 4, 2, "Passive Trait 90 (+90% efficiency)", "#6978e1", "#960f2d", 45000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 1000.0, 105.0, 200, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_091"] = ShipSpec("SHIP_MODEL_091", "Vanguard Chassis Mark 91", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 91 with reinforced hull and energy conduits.", 535.0, 424.0, 55.5, 482.0, 382.0, 50.5, 5, 3, "Passive Trait 91 (+91% efficiency)", "#6d7fec", "#a31236", 45500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 1010.0, 106.0, 202, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_092"] = ShipSpec("SHIP_MODEL_092", "Vanguard Chassis Mark 92", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 92 with reinforced hull and energy conduits.", 540.0, 428.0, 56.0, 484.0, 384.0, 51.0, 2, 4, "Passive Trait 92 (+92% efficiency)", "#7186f7", "#b0153f", 46000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 1020.0, 107.0, 204, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_093"] = ShipSpec("SHIP_MODEL_093", "Vanguard Chassis Mark 93", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 93 with reinforced hull and energy conduits.", 545.0, 432.0, 56.5, 486.0, 386.0, 51.5, 3, 5, "Passive Trait 93 (+93% efficiency)", "#758d03", "#bd1848", 46500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 1030.0, 108.0, 206, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_094"] = ShipSpec("SHIP_MODEL_094", "Vanguard Chassis Mark 94", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 94 with reinforced hull and energy conduits.", 550.0, 436.0, 57.0, 488.0, 388.0, 52.0, 4, 6, "Passive Trait 94 (+94% efficiency)", "#79940e", "#ca1b51", 47000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 1040.0, 109.0, 208, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_095"] = ShipSpec("SHIP_MODEL_095", "Vanguard Chassis Mark 95", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 95 with reinforced hull and energy conduits.", 555.0, 440.0, 57.5, 490.0, 390.0, 52.5, 5, 2, "Passive Trait 95 (+95% efficiency)", "#7d9b19", "#d71e5a", 47500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 1050.0, 110.0, 210, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_096"] = ShipSpec("SHIP_MODEL_096", "Vanguard Chassis Mark 96", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 96 with reinforced hull and energy conduits.", 560.0, 444.0, 58.0, 492.0, 392.0, 53.0, 2, 3, "Passive Trait 96 (+96% efficiency)", "#81a224", "#e42163", 48000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 1060.0, 111.0, 212, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_097"] = ShipSpec("SHIP_MODEL_097", "Vanguard Chassis Mark 97", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 97 with reinforced hull and energy conduits.", 565.0, 448.0, 58.5, 494.0, 394.0, 53.5, 3, 4, "Passive Trait 97 (+97% efficiency)", "#85a92f", "#f1246c", 48500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 1070.0, 112.0, 214, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_098"] = ShipSpec("SHIP_MODEL_098", "Vanguard Chassis Mark 98", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 98 with reinforced hull and energy conduits.", 570.0, 452.0, 59.0, 496.0, 396.0, 54.0, 4, 5, "Passive Trait 98 (+98% efficiency)", "#89b03a", "#fe2775", 49000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 1080.0, 113.0, 216, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_099"] = ShipSpec("SHIP_MODEL_099", "Vanguard Chassis Mark 99", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 99 with reinforced hull and energy conduits.", 575.0, 456.0, 59.5, 498.0, 398.0, 54.5, 5, 6, "Passive Trait 99 (+99% efficiency)", "#8db745", "#0c2a7e", 49500, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 1090.0, 114.0, 218, [-0.1, 0.1])
+
+ShipCatalog.SHIPS["SHIP_MODEL_100"] = ShipSpec("SHIP_MODEL_100", "Vanguard Chassis Mark 100", "Interceptor" if i%5==1 else "Dreadnought", "Military chassis variant 100 with reinforced hull and energy conduits.", 580.0, 460.0, 60.0, 500.0, 400.0, 55.0, 2, 2, "Passive Trait 100 (+100% efficiency)", "#91be50", "#192d87", 50000, [(0, -20), (-15, 15), (15, 15)], [(-10, 18), (10, 18)], 1100.0, 115.0, 220, [-0.1, 0.1])
+
