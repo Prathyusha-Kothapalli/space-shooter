@@ -84,3 +84,4 @@ python -m unittest discover tests
 - **Automated Tests**: 13 test cases across 10 test modules (100% passing)
 - **Dependency Files**: `requirements.txt` (manifest), `requirements.lock` & `Pipfile.lock` (lockfiles)
 - **Test Configs**: `pytest.ini`, `.coveragerc`, `tox.ini`
+"# space-shooter" 
