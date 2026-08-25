@@ -5,6 +5,13 @@ class ItemSpec:
         self.item_id = item_id; self.name = name; self.category = category; self.rarity = rarity; self.description = description; self.credit_value = credit_value; self.stat_modifiers = stat_modifiers
 class ItemCatalog:
     ITEMS: Dict[str, ItemSpec] = {}
+
+    @classmethod
+    def get_item(cls, item_id: str) -> ItemSpec:
+        if item_id in cls.ITEMS:
+            return cls.ITEMS[item_id]
+        return ItemSpec(item_id, item_id, "Material", "COMMON", "Crafted item", 100, {})
+
 ItemCatalog.ITEMS["ITEM_COMPONENT_001"] = ItemSpec("ITEM_COMPONENT_001", "Salvage Module 001", "Material", "RARE", "High-tech component 1 salvaged from defeated alien flagships.", 150, {"damage": 0.060000000000000005, "shield": 12.0})
 
 ItemCatalog.ITEMS["ITEM_COMPONENT_002"] = ItemSpec("ITEM_COMPONENT_002", "Salvage Module 002", "Material", "RARE", "High-tech component 2 salvaged from defeated alien flagships.", 200, {"damage": 0.07, "shield": 14.0})
