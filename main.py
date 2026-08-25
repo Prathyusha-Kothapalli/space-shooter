@@ -10,10 +10,17 @@ from ui.game_over_ui import GameOverState
 from ui.victory_ui import VictoryState
 from ui.tech_tree_ui import TechTreeState
 from ui.settings_ui import SettingsUIState
+from ui.codex_ui import CodexUIState
+from ui.inventory_ui import InventoryUIState
+from ui.shop_ui import ShopUIState
+from ui.sector_map_ui import SectorMapUIState
+from ui.achievements_ui import AchievementsUIState
+from ui.statistics_ui import StatisticsUIState
+from ui.crafting_ui import CraftingUIState
 from core.state_machine import BaseState
 from configuration.constants import (
     STATE_MENU, STATE_GAMEPLAY, STATE_PAUSE, STATE_GAME_OVER,
-    STATE_VICTORY, STATE_UPGRADE_TREE, STATE_SETTINGS
+    STATE_VICTORY, STATE_UPGRADE_TREE, STATE_SETTINGS, STATE_ACHIEVEMENTS, STATE_STATS
 )
 from utils.logger import log_info
 
@@ -52,7 +59,7 @@ def main():
     gm = GameManager()
     gm.setup(headless=headless_mode)
 
-    # Register Game States
+    # Register All Game State Scenes
     gm.engine.state_machine.add_state(MainMenuState())
     gm.engine.state_machine.add_state(GameplayState(gm.context))
     gm.engine.state_machine.add_state(PauseMenuState())
@@ -60,6 +67,13 @@ def main():
     gm.engine.state_machine.add_state(VictoryState())
     gm.engine.state_machine.add_state(TechTreeState())
     gm.engine.state_machine.add_state(SettingsUIState())
+    gm.engine.state_machine.add_state(CodexUIState())
+    gm.engine.state_machine.add_state(InventoryUIState())
+    gm.engine.state_machine.add_state(ShopUIState())
+    gm.engine.state_machine.add_state(SectorMapUIState())
+    gm.engine.state_machine.add_state(AchievementsUIState())
+    gm.engine.state_machine.add_state(StatisticsUIState())
+    gm.engine.state_machine.add_state(CraftingUIState())
 
     # Set Initial State to Main Menu
     gm.engine.state_machine.change_state(STATE_MENU)
